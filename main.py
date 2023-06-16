@@ -18,8 +18,8 @@ def get_random_document(collection):
 
 
 def set_message(document):
-    return f"❤️‍🩹\n\n{document['title']}\n\n" \
-           f"{document['advice']}\n\n🎈🤲🎉\n\n"
+    return f"☝️☝️☝️‍\n\n{document['title']}\n\n❤️🎉🎈\n\n" \
+           f"{document['advice']}\n\n❤️🎉🎈\n\n🤲🤲🤲\n\n"
 
 
 def send_message_to_personal(bot_token, chat_id, message):
