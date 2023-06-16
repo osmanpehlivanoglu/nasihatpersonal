@@ -32,7 +32,7 @@ def main():
     load_dotenv()
 
     bot_token = os.getenv('BOT_TOKEN')
-    chat_id = os.getenv('CHAT_ID_PERSONAL')
+    chat_id = os.getenv('CHAT_ID')
     uri = os.getenv('URI')
     db, client = connect_mongo(uri)
     collection = db['advices-personal']

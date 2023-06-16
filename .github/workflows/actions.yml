@@ -24,10 +24,8 @@ jobs:
 
       - name: execute py script # run main.py
         env:
-          SHEET_URL: ${{ secrets.SHEET_URL }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
           URI: ${{ secrets.URI }}
-          CREDENTIALS: ${{ secrets.CREDENTIALS }}
         run: python main.py
 
