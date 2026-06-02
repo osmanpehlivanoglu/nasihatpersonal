@@ -2,8 +2,8 @@ name: run main.py
 
 on:
   schedule:
-    # Türkiye saatiyle (UTC+3) 10:37–21:37 arası saatlik (:37 → GitHub kuyruğu daha boş)
-    - cron: '37 7-18 * * *'
+    # Türkiye saatiyle (UTC+3) 09:37–21:37 arası 3 saatte bir (:37 → GitHub kuyruğu daha boş)
+    - cron: '37 6,9,12,15,18 * * *'
 
 jobs:
   build:
