@@ -3,7 +3,6 @@ import os
 import telebot
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-import random
 
 
 def connect_mongo(uri):
@@ -11,37 +10,36 @@ def connect_mongo(uri):
     return client['telegram'], client
 
 
-def get_random_document(collection):
-    result = collection.find()
-    data = list(result)
-    return random.choice(data)
+def get_random_advice(collection):
+    docs = list(collection.aggregate([{'$sample': {'size': 1}}]))
+    if not docs:
+        raise ValueError("'advices-personal' koleksiyonu boş")
+    return docs[0]['advice']
 
 
-def set_message(document):
-    # return f"☝️☝️☝️‍\n\n{document['title']}\n\n❤️🎉🎈\n\n" \
-    #        f"{document['advice']}\n\n❤️🎉🎈\n\n🤲🤲🤲\n\n"
-
-    return f"{document['advice']}"
-
-
-def send_message_to_personal(bot_token, chat_id, message):
+def send_message(bot_token, chat_id, message):
     bot = telebot.TeleBot(bot_token)
     bot.send_message(chat_id, message)
-    bot.stop_bot()
 
 
 def main():
     load_dotenv()
 
+    missing = [k for k in ('BOT_TOKEN', 'CHAT_ID', 'URI') if not os.getenv(k)]
+    if missing:
+        raise RuntimeError(f"Eksik ortam değişkeni: {', '.join(missing)}")
+
     bot_token = os.getenv('BOT_TOKEN')
     chat_id = os.getenv('CHAT_ID')
     uri = os.getenv('URI')
+
     db, client = connect_mongo(uri)
-    collection = db['advices-personal']
-    random_document = get_random_document(collection)
-    message = set_message(random_document)
-    send_message_to_personal(bot_token, chat_id, message)
-    client.close()
+    try:
+        advice = get_random_advice(db['advices-personal'])
+        send_message(bot_token, chat_id, advice)
+        print('Nasihat gönderildi.')
+    finally:
+        client.close()
 
 
 if __name__ == '__main__':
