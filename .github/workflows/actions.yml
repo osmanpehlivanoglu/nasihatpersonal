@@ -2,8 +2,10 @@ name: run main.py
 
 on:
   schedule:
-    # Türkiye saatiyle (UTC+3) 09:37–21:37 arası 3 saatte bir (:37 → GitHub kuyruğu daha boş)
-    - cron: '37 6,9,12,15,18 * * *'
+    # Türkiye saatiyle (UTC+3) sabah 10:00 — günde tek sefer.
+    # (Çoklu slot denendi ama GitHub best-effort cron slotları kaydırıyor:
+    #  gece 00:30 / öğlen 14:30 gibi saçma saatlerde geliyordu. Tek slot = saatinde geliyor.)
+    - cron: '0 7 * * *'
 
 jobs:
   build:
